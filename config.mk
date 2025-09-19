@@ -14,6 +14,8 @@ X11LIB = /usr/X11R6/lib
 XINERAMALIBS  = -lXinerama
 XINERAMAFLAGS = -DXINERAMA
 
+CUSTOMS = /home/darkskoll/lib
+
 # freetype
 FREETYPELIBS = -lfontconfig -lXft
 FREETYPEINC = /usr/include/freetype2
@@ -22,7 +24,7 @@ FREETYPEINC = /usr/include/freetype2
 #MANPREFIX = ${PREFIX}/man
 
 # includes and libs
-INCS = -I${X11INC} -I${FREETYPEINC}
+INCS = -I${X11INC} -I${FREETYPEINC} -I${CUSTOMS}
 LIBS = -L${X11LIB} -lX11 ${XINERAMALIBS} ${FREETYPELIBS}
 
 # flags
