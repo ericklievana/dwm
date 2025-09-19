@@ -36,16 +36,18 @@ static const int resizehints = 1;
 
 // Set the fonts of the status bar
 static const char *fonts[] = {
-  "Code New Roman:size=18",
+  "Code New Roman:size=20:antialias=true:autohint=true",
+  "Symbols Nerd Font Mono:size=20:antialias=true:autohint=true",
 };
 // Set the color of the schemes
 static const char *colors[][3] = {
   [SchemeNorm] = { normalWhite, normalBlack, normalBlack },
-  [SchemeSel]  = { brigthRed, normalBlack,  brigthRed  },
+  [SchemeSel]  = { normalRed, normalBlack,  normalRed  },
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "󰲡", "󰲣", "󰲥", "󰲧", "󰲩", "󰲫", "󰲭", "󰲯", "󰲱" };
+static const char *alttags[] = { "󰲠", "󰲢", "󰲤", "󰲦", "󰲨", "󰲪", "󰲬", "󰲮", "󰲰" };
 
 static const Rule rules[] = {
   /* xprop(1):
