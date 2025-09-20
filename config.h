@@ -1,8 +1,11 @@
+#include <X11/XF86keysym.h>
 #include <colors.h>
 
 //GENERAL
+// Set modifier key
+#define MODKEY Mod4Mask
 // Set border width in pixels
-static const unsigned int borderpx = 1;
+static const unsigned int borderpx = 5;
 // Set snap pixel
 static const unsigned int snap = 32;
 // Set if the status bar is show or not
@@ -17,9 +20,34 @@ static const char *splitdelim = ";";
 static const int lockfullscreen = 1;
 // Set the refresh rate per second for client move/resize
 static const int refreshrate = 60;
+// Set the fonts
+static const char *fonts[] = {
+  "Code New Roman:size=24:antialias=true:autohint=true",
+  "Symbols Nerd Font Mono:size=24:antialias=true:autohint=true",
+};
+// Set the color of the schemes
+static const char *colors[][3] = {
+  [SchemeNorm] = { normalWhite, normalBlack, normalBlack },
+  [SchemeSel]  = { normalRed, normalBlack,  normalRed  },
+};
+// Set the symbols used for the tags
+static const char *tags[] = { "󰲡", "󰲣", "󰲥", "󰲧", "󰲩", "󰲫", "󰲭", "󰲯", "󰲱", };
+static const char *alttags[] = { "󰲠", "󰲢", "󰲤", "󰲦", "󰲨", "󰲪", "󰲬", "󰲮", "󰲰", };
+// Set program specific rules
+// Class-Instance-Title-Tagsmask-Floating-Monitor
+static const Rule rules[] = {
+  { "Gimp",     NULL,       NULL,       0,            1,           -1 },
+  { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+};
 
 // LAYOUTS
-
+static const Layout layouts[] = {
+  { "[]=",      tile },
+  { "[M]",      monocle },
+  { "|M|",      centeredmaster },
+  { ">M>",      centeredfloatingmaster },
+  { "><>",      NULL },
+};
 // TILE LAYOUT
 // Set the percentage of the screen the master window takes
 static const float mfact = 0.55;
@@ -28,69 +56,25 @@ static const int nmaster = 1;
 // Set if size hints are respected in resizals
 static const int resizehints = 1;
 
+// COMMANDS
+static const char *dmenu[] = { "dmenu_run", NULL };
+static const char *terminal[]  = { "st", NULL };
+static const char scratchpadname[] = "scratchpad";
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 
-
-
-
-
-
-// Set the fonts of the status bar
-static const char *fonts[] = {
-  "Code New Roman:size=20:antialias=true:autohint=true",
-  "Symbols Nerd Font Mono:size=20:antialias=true:autohint=true",
-};
-// Set the color of the schemes
-static const char *colors[][3] = {
-  [SchemeNorm] = { normalWhite, normalBlack, normalBlack },
-  [SchemeSel]  = { normalRed, normalBlack,  normalRed  },
-};
-
-/* tagging */
-static const char *tags[] = { "󰲡", "󰲣", "󰲥", "󰲧", "󰲩", "󰲫", "󰲭", "󰲯", "󰲱" };
-static const char *alttags[] = { "󰲠", "󰲢", "󰲤", "󰲦", "󰲨", "󰲪", "󰲬", "󰲮", "󰲰" };
-
-static const Rule rules[] = {
-  /* xprop(1):
-   *	WM_CLASS(STRING) = instance, class
-   *	WM_NAME(STRING) = title
-   */
-  /* class      instance    title       tags mask     isfloating   monitor */
-  { "Gimp",     NULL,       NULL,       0,            1,           -1 },
-  { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-};
-
-
-static const Layout layouts[] = {
-  /* symbol     arrange function */
-  { "[]=",      tile },    /* first entry is default */
-  { "><>",      NULL },    /* no layout function means floating behavior */
-  { "[M]",      monocle },
-  { "|M|",      centeredmaster },
-  { ">M>",      centeredfloatingmaster },
-};
-
-/* key definitions */
-#define MODKEY Mod4Mask
+// KEYMAPS
+// Key Definitions
 #define TAGKEYS(KEY,TAG) \
 { MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 { MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 { MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
-
-/* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", NULL };
-static const char *termcmd[]  = { "st", NULL };
-static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 
 static const Key keys[] = {
   /* modifier                     key        function        argument */
-  { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-  { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+  { MODKEY,                       XK_p,      spawn,          {.v = dmenu } },
+  { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = terminal } },
   { MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
   { MODKEY,                       XK_b,      togglebar,      {0} },
   { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -116,6 +100,7 @@ static const Key keys[] = {
   { MODKEY,                       XK_period, focusmon,       {.i = +1 } },
   { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
   { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+  { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
   TAGKEYS(                        XK_1,                      0)
   TAGKEYS(                        XK_2,                      1)
   TAGKEYS(                        XK_3,                      2)
@@ -125,7 +110,6 @@ static const Key keys[] = {
   TAGKEYS(                        XK_7,                      6)
   TAGKEYS(                        XK_8,                      7)
   TAGKEYS(                        XK_9,                      8)
-  { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
 /* button definitions */
@@ -135,7 +119,7 @@ static const Button buttons[] = {
   { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
   { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
   { ClkWinTitle,          0,              Button2,        zoom,           {0} },
-  { ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+  { ClkStatusText,        0,              Button2,        spawn,          {.v = terminal } },
   { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
   { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
   { ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
