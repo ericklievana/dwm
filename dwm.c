@@ -735,7 +735,7 @@ drawbar(Monitor *m)
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
     tagtext = occ & 1 << i ? alttags[i] : tags[i];
-    w = TEXTW(tagtext) - lrpad/2;
+    w = TEXTW(tagtext);
     drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
     drw_text(drw, x, 0, w, bh, lrpad / 2, tagtext, urg & 1 << i);
 		x += w;
@@ -1603,7 +1603,7 @@ setup(void)
 	drw = drw_create(dpy, screen, root, sw, sh);
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
-	lrpad = drw->fonts->h;
+	lrpad = 10;
 	bh = drw->fonts->h + 2;
 	updategeom();
 	/* init atoms */
@@ -1691,8 +1691,6 @@ spawn(const Arg *arg)
 {
 	struct sigaction sa;
 
-//	if (arg->v == dmenucmd)
-//		dmenumon[0] = '0' + selmon->num;
 	selmon->tagset[selmon->seltags] &= ~scratchtag;
 	if (fork() == 0) {
 		if (dpy)
