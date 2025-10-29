@@ -23,12 +23,13 @@ static const int refreshrate = 60;
 // Set the fonts
 static const char *fonts[] = {
   "Code New Roman:size=24:antialias=true:autohint=true",
-  "Symbols Nerd Font Mono:size=24:antialias=true:autohint=true",
+  "Symbols Nerd Font:size=24:antialias=true:autohint=true",
 };
+
 // Set the color of the schemes
 static const char *colors[][3] = {
   [SchemeNorm] = { normalWhite, normalBlack, normalBlack },
-  [SchemeSel]  = { normalRed, normalBlack,  normalRed  },
+  [SchemeSel]  = { brigthBlue, normalBlack,  brigthBlue  },
 };
 // Set the symbols used for the tags
 static const char *tags[] = { "󰎦", "󰎩", "󰎬", "󰎮", "󰎰", "󰎵", "󰎸", "󰎻", "󰎾", };
@@ -56,13 +57,14 @@ static const int nmaster = 1;
 static const int resizehints = 1;
 
 // COMMANDS
-static const char *dmenu[] = { "dmenu_run", NULL };
 static const char *terminal[]  = { "st", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 static const char *volumeUp[] = { "volumeControl", "up", NULL };
 static const char *volumeDown[] = { "volumeControl", "down", NULL };
 static const char *volumeMute[] = { "volumeControl", "mute", NULL };
+static const char *powerMenu[] = { "powerMenu", NULL };
+static const char *launcher[] = { "launcher", NULL };
 
 // KEYMAPS
 // Key Definitions
@@ -78,7 +80,7 @@ static const Key keys[] = {
   { 0, XF86XK_AudioMute,        spawn, {.v = volumeMute } },
   { 0, XF86XK_AudioLowerVolume, spawn, {.v = volumeDown } },
   { 0, XF86XK_AudioRaiseVolume, spawn, {.v = volumeUp } },
-  { MODKEY,                       XK_p,      spawn,          {.v = dmenu } },
+  { MODKEY,                       XK_p,      spawn,          {.v = launcher } },
   { MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
   { MODKEY,                       XK_b,      togglebar,      {0} },
   { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -105,7 +107,8 @@ static const Key keys[] = {
   { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = terminal } },
   { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
   { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-  { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+  { MODKEY|ControlMask|ShiftMask, XK_x,      quit,           {0} },
+  { MODKEY|ControlMask|ShiftMask, XK_p,      spawn,          {.v = powerMenu } },
   TAGKEYS(                        XK_1,                      0)
   TAGKEYS(                        XK_2,                      1)
   TAGKEYS(                        XK_3,                      2)
