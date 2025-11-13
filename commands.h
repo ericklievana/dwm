@@ -1,0 +1,8 @@
+static const char *terminal[]  = { "st", NULL };
+static const char scratchpadname[] = "scratchpad";
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
+static const char *volumeUp[] = { "volumeControl", "up", NULL };
+static const char *volumeDown[] = { "volumeControl", "down", NULL };
+static const char *volumeMute[] = { "volumeControl", "mute", NULL };
+static const char *powerMenu[] = { "powerMenu", NULL };
+static const char *launcher[] = { "launcher", NULL };
