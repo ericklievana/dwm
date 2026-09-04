@@ -12,6 +12,8 @@ static const Key keys[] = {
   { 0, XF86XK_AudioLowerVolume, spawn, {.v = volumeDown } },
   { 0, XF86XK_AudioRaiseVolume, spawn, {.v = volumeUp } },
   { MODKEY,                       XK_p,      spawn,          {.v = launcher } },
+  { MODKEY,                       XK_u,      spawn,          {.v = bookmarks } },
+  { MODKEY,                       XK_z,      spawn,          {.v = clipboard } },
   { MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
   { MODKEY,                       XK_b,      togglebar,      {0} },
   { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },

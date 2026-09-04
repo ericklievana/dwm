@@ -6,3 +6,5 @@ static const char *volumeDown[] = { "volumeControl", "down", NULL };
 static const char *volumeMute[] = { "volumeControl", "mute", NULL };
 static const char *powerMenu[] = { "powerMenu", NULL };
 static const char *launcher[] = { "launcher", NULL };
+static const char *bookmarks[] = { "bookmarks", NULL };
+static const char *clipboard[] = { "clipboard", NULL };
